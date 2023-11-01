@@ -28,6 +28,9 @@ class Post(models.Model):
     def __str__(self):
         return self.text
 
+    class Meta:
+        ordering = ('id',)
+
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -46,3 +49,8 @@ class Follow(models.Model):
     following = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='follower'
     )
+
+    class Meta:
+        constraints = [models.UniqueConstraint(
+            fields=['user', 'following'],
+            name='user_following')]
